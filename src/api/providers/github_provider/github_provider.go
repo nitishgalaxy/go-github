@@ -14,7 +14,7 @@ import (
 const (
 	headerAuthorization       = "Authorization"
 	headerAuthorizationFormat = "token %s"
-	urlCreateRepo             = "https://api.guthub.com/user/repos"
+	urlCreateRepo             = "https://api.github.com/user/repos"
 )
 
 func getAuthorizationHeader(access_token string) string {
@@ -25,9 +25,10 @@ func CreateRepo(accessToken string, request github.CreateRepoRequest) (*github.C
 	headers := http.Header{}
 	headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
 	response, err := restclient.Post(urlCreateRepo, request, headers)
+	fmt.Println("Response from github :", response)
 
 	if err != nil {
-		log.Println("Error creating new repo in github: %s", err.Error())
+		log.Printf("Error creating new repo in github: %s", err.Error())
 		return nil, &github.GithubErrorResponse{StatusCode: http.StatusInternalServerError, Message: err.Error()}
 	}
 
@@ -48,7 +49,7 @@ func CreateRepo(accessToken string, request github.CreateRepoRequest) (*github.C
 
 	var result github.CreateRepoResponse
 	if err := json.Unmarshal(bytes, &result); err != nil {
-		log.Println("Error trying to unmarshal github Create Repo successful Response: %s", err.Error())
+		log.Printf("Error trying to unmarshal github Create Repo successful Response: %s", err.Error())
 		return nil, &github.GithubErrorResponse{StatusCode: http.StatusInternalServerError, Message: "Error trying to unmarshal github Create Repo successful Response."}
 	}
 

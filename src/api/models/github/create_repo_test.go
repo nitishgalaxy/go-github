@@ -33,4 +33,5 @@ func TestCreateRepoRequestAsJson(t *testing.T) {
 
 	assert.EqualValues(t, target.Name, request.Name)
 	assert.EqualValues(t, target.HasIssues, request.HasIssues)
+
 }
