@@ -41,6 +41,10 @@ func AddMockup(mock Mock) {
 	mocks[GetMockId(mock.HttpMethod, mock.Url)] = &mock
 }
 
+func FlushMockups() {
+	mocks = make(map[string]*Mock)
+}
+
 func Post(url string, body interface{}, headers http.Header) (*http.Response, error) {
 	if enabledMocks {
 		// return local mocks without calling any external resource
